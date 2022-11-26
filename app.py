@@ -147,6 +147,8 @@ def hello():
     if request.method == 'POST':
         fname = request.form.get('fname')
         lname = request.form.get('lname')
+        if fname == 'vala':
+            return redirect(url_for('index'))
 
     return render_template('hello.html',name=fname,lName=lname)
 

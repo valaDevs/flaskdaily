@@ -73,3 +73,15 @@ window.onload=function(){
 	
 	
 }
+
+
+const firstName = document.getElementById('fname')
+const lastName = document.getElementById('lname')
+const form = document.getElementById('myForm')
+
+form.addEventListener('submit', (e) => {
+	if(firstName.value =="" && lastName.value ==""){
+		alert('you cant submit empty')
+		e.preventDefault()
+	}
+})
