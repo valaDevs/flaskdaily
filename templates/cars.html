@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Cars
+{% endblock %}
+
+{% block content %}
+
+   
+        {% for car in cars %}
+      
+          <div class="card">
+            <div class="container">
+                <h1 class="text-red">#{{car.id}}</h1>
+              <h4><b>Name = {{car.carname}}</b></h4> 
+              <h4><b>Color = {{car.carcolor}}</b></h4> 
+              <h4><b>Country = {{car.carmadeat}}</b></h4> 
+              <h4><b>Type = {{car.cartype}}</b></h4> 
+              <a href="{{ url_for('car', id=car.id)}}">View Post</a>
+            </div>  
+          </div>
+       
+        {% endfor %}
+    
+
+{% endblock %}

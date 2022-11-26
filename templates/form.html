@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Spy
+{% endblock %}
+
+{% block content %}
+
+<div class="row mt-3" >
+    <div class="alert  alert-warning" >
+        <h4 class="alert-heading">Form !</h4>
+        <p class="mb-0">Enter Your Name Please !! </p>
+      </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/hello" method="POST">
+                        <div class="form-group">
+                            <label for="">Name:</label>
+                            <input type="text" name="fname" class="form-control">
+                        </div>
+    
+                            <div class="form-group mt-3">
+                            <label for="">LastName:</label>
+                            <input type="text" name="lname" class="form-control">
+                        </div>
+                        <br>
+                        <button type="submit"> Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Login Here</h4>
+                    <p class="lead">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing el
+                        it. Ipsa reiciendis quidem totam rem, ea quae voluptatibu
+                        s quisquam tempore nemo fugiat, repudiandae illo. Vero, porro ullam, cumque quo labore in autem fugiat id enim voluptate co
+                        dfdffdfdfd
+                    </p>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+{% endblock %}
