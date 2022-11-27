@@ -1,14 +1,24 @@
 import os
-from flask import Flask,render_template , request, url_for, redirect
+from flask import Flask,render_template , request, url_for, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+from werkzeug.utils import secure_filename
+import urllib.request
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
 app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///' + os.path.join(basedir, 'database.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+UPLOAD_FOLDER = 'static/uploads'
+app.secret_key = 'kaboos123aha'
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 db = SQLAlchemy(app)
 
@@ -137,9 +147,6 @@ def spyPlay():
 
 @app.route('/form',methods=['GET','POST'])
 def form():
-  
-
-        
     return render_template('form.html')
 
 @app.route('/hello',methods=['GET','POST'])
@@ -147,11 +154,46 @@ def hello():
     if request.method == 'POST':
         fname = request.form.get('fname')
         lname = request.form.get('lname')
-        if fname == 'vala':
+        if fname == 'admin':
             return redirect(url_for('index'))
 
     return render_template('hello.html',name=fname,lName=lname)
 
+
+def allowed_file(filename):
+    	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/upload')
+def upload_form():
+	return render_template('upload.html')
+
+@app.route('/upload', methods=['POST'])
+def upload_image():
+	if 'files[]' not in request.files:
+		flash('No file part')
+		return redirect(request.url)
+	files = request.files.getlist('files[]')
+	file_names = []
+	for file in files:
+		if file and allowed_file(file.filename):
+			filename = secure_filename(file.filename)
+			file_names.append(filename)
+			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		#else:
+		#	flash('Allowed image types are -> png, jpg, jpeg, gif')
+		#	return redirect(request.url)
+
+	return render_template('upload.html', filenames=file_names)
+
+
+@app.route('/display/<filename>')
+def display_image(filename):
+	#print('display_image filename: ' + filename)
+	return redirect(url_for('static', filename='uploads/' + filename), code=301)
+
+
 if __name__ == "__main__":
     app.run()
+
 
