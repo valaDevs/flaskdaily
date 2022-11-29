@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Upload
+{% endblock %}
+
+{% block content %}
+
+<div class="row mt-3" >
+    <div class="alert  alert-warning" >
+        <h4 class="alert-heading">Upload !</h4>
+        <h2>Select multiple images to upload and display</h2>
+<p>
+	
+</p>
+      </div>
+
+
+    
+
+        {% for u in upload %}
+            <div>
+                <img src="{{ url_for('static', filename='uploads/' + filename) }}">
+            </div>
+        {% endfor %}
+ 
+</div>
+
+
+{% endblock %}

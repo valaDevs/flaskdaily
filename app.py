@@ -50,6 +50,11 @@ class Car(db.Model):
         return f'<Car {self.carname}>'
 
 
+class Upload(db.Model):
+    id = db.Column(db.Integer,primary_key = True)
+    filename = db.Column(db.String(100))
+    data = db.Column(db.LargeBinary)
+
 @app.route('/')
 def index():
     students = Student.query.all()
@@ -180,6 +185,9 @@ def upload_image():
 			filename = secure_filename(file.filename)
 			file_names.append(filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+
+
 		#else:
 		#	flash('Allowed image types are -> png, jpg, jpeg, gif')
 		#	return redirect(request.url)
@@ -191,6 +199,30 @@ def upload_image():
 def display_image(filename):
 	#print('display_image filename: ' + filename)
 	return redirect(url_for('static', filename='uploads/' + filename), code=301)
+
+
+@app.route('/avatar',methods=['GET','POST'])
+def avatar():
+    if request.method=='POST':
+        file = request.files['file']
+
+        upload = Upload(filename=file.filename,data=file.read())
+        db.session.add(upload)
+        db.session.commit()
+
+
+        return f'Uploaded : {file.filename}'
+
+    return render_template('avatar.html')
+
+@app.route('/blob',methods=['GET','POST'])
+def blob():
+
+    upload = Upload.query.all()
+
+    return render_template('blob.html',upload=upload)
+
+
 
 
 if __name__ == "__main__":
