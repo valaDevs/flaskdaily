@@ -154,7 +154,7 @@ def spyPlay():
 def form():
     return render_template('form.html')
 
-@app.route('/hello',methods=['GET','POST'])
+@app.route('/hello',methods=['GET','POST','PATCH'])
 def hello():
     if request.method == 'POST':
         fname = request.form.get('fname')
